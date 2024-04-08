@@ -1,0 +1,309 @@
+﻿@{
+    ViewData["Title"] = "NuevaVenta";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Estilos{
+
+    <link href="~/vendor/select2/select2.min.css" rel="stylesheet">
+
+    <style>
+        .select2 {
+            width: 100% !important;
+        }
+        .row{
+            justify-content: center;
+        }
+        .body{
+            text-align: center;
+        }
+        .detalleVenta{
+            margin-top: 2.75rem;
+        }
+    </style>
+}
+
+<div class="row">
+    <div class="col-sm-8">
+        <div class="row" style="justify-content:left">
+            <div class="col-sm-3">
+                <button class="btn btn-success" id="btnNuevo"><i class="fas fa-plus-circle"></i> Nuevo Cliente</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3 bg-second-primary">
+                        <h6 class="m-0 font-weight-bold text-white">Cliente</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-row">
+                            <div class="form-group col-sm-12">
+                                <select class="form-control form-control-sm" id="cboBuscarCliente">
+                                    <option value=""></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table class="table table-striped table-sm" id="tbCliente">
+                                    <thead>
+                                        <tr>
+                                            <th>Documento Cliente</th>
+                                            <th>Nombre</th>
+                                            <th>Apellido</th>
+                                            <th>Condicion Tributaria</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+          </div>
+   </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3 bg-second-primary">
+                        <h6 class="m-0 font-weight-bold text-white">Inventarios</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-row">
+                            <div class="form-group col-sm-12">
+                                <select class="form-control form-control-sm" id="cboBuscarInventario">
+                                    <option value=""></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table class="table table-striped table-sm" id="tbInventario">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>Inventario</th>
+                                            <th>Articulo</th>
+                                            <th>Color</th>
+                                            <th>Talle</th>
+                                            <th>Cantidad</th>
+                                            <th>Precio</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+
+    <div class="col-sm-4 detalleVenta">
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3 bg-second-primary">
+                        <h6 class="m-0 font-weight-bold text-white">Detalle</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="input-group input-group-sm mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroupTipoComprobante">Tipo</span>
+                            </div>
+                            <input type="text" class="form-control text-right" aria-label="Small" aria-describedby="inputGroupTipoComprobante" id="txtTipoComprobante" disabled>
+                        </div>
+                        <div class="input-group input-group-sm mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroupNetoGravado">Neto Gravado</span>
+                            </div>
+                            <input type="text" class="form-control text-right" aria-label="Small" aria-describedby="inputGroupNetoGravado" id="txtNetoGravado" disabled>
+                        </div>
+                        <div class="input-group input-group-sm mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroupIva">Impuesto Iva</span>
+                            </div>
+                            <input type="text" class="form-control text-right" aria-label="Small" aria-describedby="inputGroupIva" id="txtIva" disabled>
+                        </div>
+                        <div class="input-group input-group-sm mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroupPrecioVenta">Monto total</span>
+                            </div>
+                            <input type="text" class="form-control text-right" aria-label="Small" aria-describedby="inputGroupPrecioVenta" id="txtPrecioVenta" disabled>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <div class="form-group mb-0">
+                            <button class="btn btn-success btn-sm btn-block" id="btnConfirmarVenta">Confirmar Venta</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--  Modal CLIENTE-->
+<div class="modal fade" id="modalData" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6>Detalle Cliente</h6>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <input type="hidden" value="0" id="txtId">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-row">
+                                <div class="form-group col-sm-6">
+                                    <label for="txtNumeroDocumento">Numero Documento</label>
+                                    <input type="text" class="form-control form-control-sm input-validar" id="txtNumeroDocumento" name="NumeroDocumento">
+                                </div>
+                                <div class="form-group col-sm-6">
+                                    <label for="txtNombres">Nombres</label>
+                                    <input type="text" class="form-control form-control-sm input-validar" id="txtNombres" name="Nombres">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-sm-6">
+                                    <label for="txtApellidos">Apellidos</label>
+                                    <input type="text" class="form-control form-control-sm input-validar" id="txtApellidos" name="Apellidos">
+                                </div>
+                                <div class="form-group col-sm-6">
+                                    <label for="txtTelefono">Telefono</label>
+                                    <input type="text" class="form-control form-control-sm input-validar" id="txtTelefono" name="Telefono">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-sm-6">
+                                    <label for="txtDomicilio">Domicilio</label>
+                                    <input type="text" class="form-control form-control-sm input-validar" id="txtDomicilio" name="Domicilio">
+                                </div>
+                                <div class="form-group col-sm-6">
+                                    <label for="cboCondicionTributaria">Condicion Tributaria</label>
+                                    <select class="form-control form-control-sm" id="cboCondicionTributaria">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-sm-6">
+                                    <label for="cboEstado">Estado</label>
+                                    <select class="form-control form-control-sm" id="cboEstado">
+                                        <option value="1">Activo</option>
+                                        <option value="0">No Activo</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary btn-sm" type="button" id="btnGuardar">Guardar</button>
+                <button class="btn btn-danger btn-sm" type="button" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--  Modal PAGO-->
+<div class="modal fade" id="modalPago" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6>Pago</h6>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <input type="hidden" value="0" id="txtIdPago">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-row">
+                                <div class="form-group col-sm-6">
+                                    <label for="cboTipoPago">Tipo Pago</label>
+                                    <select class="form-control form-control-sm" id="cboTipoPago">
+                                    </select>
+                                </div>                               
+                                <div class="form-group col-sm-6">
+                                    <label for="txtTotalVenta">Total</label>
+                                    <span class="form-control form-control-sm" id="txtTotalVenta"></span>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-sm-6">
+                                    <label for="txtMonto">Monto</label>
+                                    <input type="text" class="form-control form-control-sm" id="txtMonto" name="Monto">
+                                </div>
+                            </div>                       
+                            <div class="form-row" id="Efectivo">   
+                                <div class="form-group col-sm-6">
+                                    <label for="txtCambio">Cambio</label>
+                                    <span class="form-control form-control-sm" id="txtCambio"></span>
+                                </div>                              
+                            </div>
+                            <div class="form-row" id="Tarjeta" style="display:none;">
+                                <div class="form-group col-sm-6">
+                                    <label for="txtNumeroTarjeta">Numero Tarjeta</label>
+                                    <input type="text" class="form-control form-control-sm" id="txtNumeroTarjeta">
+                                </div>                               
+                                <div class="form-group col-sm-6">
+                                    <label for="txtNombreTarjeta">Nombre Tarjeta</label>
+                                    <input type="text" class="form-control form-control-sm" id="txtNombreTarjeta">
+                                </div>
+                                <div class="form-group col-sm-6">
+                                    <label for="txtMesTarjeta">Mes Tarjeta</label>
+                                    <input type="text" class="form-control form-control-sm" id="txtMesTarjeta">
+                                </div>
+                                <div class="form-group col-sm-6">
+                                    <label for="txtAnioTarjeta">Año Tarjeta</label>
+                                    <input type="text" class="form-control form-control-sm" id="txtAnioTarjeta">
+                                </div>
+                                <div class="form-group col-sm-6">
+                                    <label for="txtCodigoTarjeta">Codigo Seguridad Tarjeta</label>
+                                    <input type="text" class="form-control form-control-sm" id="txtCodigoTarjeta">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary btn-sm" type="button" id="btnTerminarVenta">Realizar Pago</button>
+                <button class="btn btn-danger btn-sm" type="button" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+     
+
+@section Scripts{
+    <script src="~/vendor/select2/select2.min.js"></script>
+    <script src="~/vendor/select2/es.min.js"></script>
+    <script src="~/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <script src="~/js/vistas/Nueva_Venta.js"></script>
+    <script src="~/js/vistas/Cliente_Index.js"></script>
+}
+
